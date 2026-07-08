@@ -1,4 +1,4 @@
-use iced::{
+use cosmic::iced::{
     widget::{button, column, container, text},
     Border, Color, Element, Length,
 };
@@ -65,15 +65,17 @@ impl State {
                 "{}x{}",
                 rectangle.width as isize, rectangle.height as isize
             )))
-            .style(move |_: &iced::Theme| iced::widget::container::Style {
-                border: Border {
-                    color: Color::TRANSPARENT,
-                    width: 1.0,
-                    radius: rectangle.border_radius.into(),
+            .style(
+                move |_: &cosmic::iced::Theme| cosmic::iced::widget::container::Style {
+                    border: Border {
+                        color: Color::TRANSPARENT,
+                        width: 1.0,
+                        radius: rectangle.border_radius.into(),
+                    },
+                    background: Some(rectangle.color.into()),
+                    ..Default::default()
                 },
-                background: Some(rectangle.color.into()),
-                ..Default::default()
-            })
+            )
             .center_x(Length::Fixed(rectangle.width))
             .center_y(Length::Fixed(rectangle.height))
             .into()
@@ -91,8 +93,8 @@ impl State {
     }
 }
 
-pub fn main() -> iced::Result {
-    iced::application(State::default, State::update, State::view)
+pub fn main() -> cosmic::iced::Result {
+    cosmic::iced::application(State::default, State::update, State::view)
         .title("Derived Animation")
         .run()
 }

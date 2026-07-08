@@ -4,7 +4,7 @@
 //! animation within the widget tree.
 use std::time::Duration;
 
-use iced::{
+use cosmic::iced::{
     widget::{container, mouse_area, space},
     Border, Color, Element,
     Length::{self, Fill},
@@ -50,8 +50,10 @@ impl State {
 
     /// Listens for window resize events to ensure the bubble color is accurate.
     fn subscription(&self) -> Subscription<Message> {
-        iced::event::listen_with(|event, _, _| match event {
-            iced::Event::Window(iced::window::Event::Resized(size)) => Some(Message::Resized(size)),
+        cosmic::iced::event::listen_with(|event, _, _| match event {
+            cosmic::iced::Event::Window(cosmic::iced::window::Event::Resized(size)) => {
+                Some(Message::Resized(size))
+            }
             _ => None,
         })
     }
@@ -95,8 +97,8 @@ fn get_color(position: &Point, size: Size) -> Color {
     Color::from_rgb(x_ratio, y_ratio, 1.0 - x_ratio)
 }
 
-pub fn main() -> iced::Result {
-    iced::application(State::default, State::update, State::view)
+pub fn main() -> cosmic::iced::Result {
+    cosmic::iced::application(State::default, State::update, State::view)
         .subscription(State::subscription)
         .title("Stateful Animation")
         .run()

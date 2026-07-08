@@ -2,7 +2,7 @@
 //! the `cached_element` in `AnimationBuilder::on_event`, but trying to propagate events to the
 //! updated widget causes a panic in the `preview_motion` example. This is related to the
 //! `push_maybe` calls in that example, although I haven't figured out a workaround yet.
-use iced::{
+use cosmic::iced::{
     widget::{button, column, container, row, text},
     Border, Color, Element, Length,
 };
@@ -85,7 +85,7 @@ impl State {
             Animation::new(
                 &self.color,
                 container(text((*self.size.value() as isize).to_string()))
-                    .style(move |_: &iced::Theme| container::Style {
+                    .style(move |_: &cosmic::iced::Theme| container::Style {
                         border: Border {
                             color: *self.color.value(),
                             width: 1.0,
@@ -108,8 +108,8 @@ impl State {
     }
 }
 
-pub fn main() -> iced::Result {
-    iced::application(State::default, State::update, State::view)
+pub fn main() -> cosmic::iced::Result {
+    cosmic::iced::application(State::default, State::update, State::view)
         .title("Nested AnimationBuilders")
         .run()
 }

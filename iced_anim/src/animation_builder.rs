@@ -15,10 +15,10 @@
 //! The element built within the closure will animate to the new size automatically.
 //!
 //! ```rust
-//! # use iced_widget::{container, text};
+//! # use cosmic::iced::widget::{container, text};
 //! # use iced_anim::{AnimationBuilder, transition::Easing};
 //! # use std::time::Duration;
-//! # type Element<'a, Message> = iced_core::Element<'a, Message, iced_core::Theme, iced_widget::Renderer>;
+//! # type Element<'a, Message> = iced_anim::iced_core::Element<'a, Message, iced_anim::iced_core::Theme, cosmic::Renderer>;
 //! # struct State {
 //! #     size: f32,
 //! # }
@@ -41,10 +41,10 @@
 //! You can also animate multiple values at once by using a tuple up to length of four:
 //!
 //! ```rust
-//! # use iced_core::Color;
-//! # use iced_widget::{container, text};
+//! # use iced_anim::iced_core::Color;
+//! # use cosmic::iced::widget::{container, text};
 //! # use iced_anim::AnimationBuilder;
-//! # type Element<'a, Message> = iced_core::Element<'a, Message, iced_core::Theme, iced_widget::Renderer>;
+//! # type Element<'a, Message> = iced_anim::iced_core::Element<'a, Message, iced_anim::iced_core::Theme, cosmic::Renderer>;
 //!
 //! # #[derive(Default)]
 //! # struct MyType {
@@ -78,12 +78,12 @@
 //! Use the `Animation` widget if you need any of these properties.
 //!
 //! If these limitations apply to you, consider using the `Animation` widget instead.
-use crate::{animate::Animate, animated::Mode, Animated};
-use iced_core::{
-    layout,
+use crate::iced_core::{
+    self, layout,
     widget::{tree, Tree},
     Element, Length, Rectangle, Size, Widget,
 };
+use crate::{animate::Animate, animated::Mode, Animated};
 
 /// A widget that implicitly animates a value anytime it changes.
 ///
@@ -205,7 +205,7 @@ where
         tree::Tag::of::<State<T>>()
     }
 
-    fn diff(&self, tree: &mut Tree) {
+    fn diff(&mut self, tree: &mut Tree) {
         // Update the spring's target if it has changed
         let state = tree.state.downcast_mut::<State<T>>();
         if state.animation.target() != &self.target {
@@ -221,7 +221,7 @@ where
             state.animation.apply(self.mode);
         }
 
-        tree.diff_children(std::slice::from_ref(&self.cached_element));
+        tree.diff_children(std::slice::from_mut(&mut self.cached_element));
     }
 
     fn layout(

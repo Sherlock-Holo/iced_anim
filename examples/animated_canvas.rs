@@ -1,5 +1,5 @@
 //! An example that shows how to draw animated shapes from within a canvas.
-use iced::{
+use cosmic::iced::{
     border::Radius,
     mouse::{self, Cursor},
     widget::{
@@ -111,9 +111,9 @@ impl canvas::Program<Message> for AppState {
     fn update(
         &self,
         _state: &mut Self::State,
-        event: &iced::Event,
+        event: &cosmic::iced::Event,
         _bounds: Rectangle,
-        _cursor: iced::advanced::mouse::Cursor,
+        _cursor: cosmic::iced::advanced::mouse::Cursor,
     ) -> Option<canvas::Action<Message>> {
         match event {
             canvas::Event::Mouse(mouse::Event::CursorMoved { position }) => {
@@ -139,8 +139,8 @@ impl canvas::Program<Message> for AppState {
     }
 }
 
-pub fn main() -> iced::Result {
-    iced::application(AppState::default, AppState::update, AppState::view)
+pub fn main() -> cosmic::iced::Result {
+    cosmic::iced::application(AppState::default, AppState::update, AppState::view)
         .window_size(Size::new(1024.0, 768.0))
         .title("Animated Canvas")
         .run()

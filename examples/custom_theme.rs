@@ -1,5 +1,5 @@
 //! An example animating a custom theme palette.
-use iced::{
+use cosmic::iced::{
     theme::Base,
     widget::{button, text},
     Border, Color, Element,
@@ -55,30 +55,30 @@ impl Animate for Theme {
 
 // A default daemon style for the custom theme.
 impl Base for Theme {
-    fn base(&self) -> iced::theme::Style {
+    fn base(&self) -> cosmic::iced::theme::Style {
         let palette = self.palette();
-        iced::theme::Style {
+        cosmic::iced::theme::Style {
             text_color: palette.text,
             background_color: palette.background,
         }
     }
 
-    fn palette(&self) -> Option<iced::theme::Palette> {
+    fn palette(&self) -> Option<cosmic::iced::theme::Palette> {
         None
     }
 
-    fn default(preference: iced::theme::Mode) -> Self {
+    fn default(preference: cosmic::iced::theme::Mode) -> Self {
         match preference {
-            iced::theme::Mode::Light | iced::theme::Mode::None => Theme::Light,
-            iced::theme::Mode::Dark => Theme::Dark,
+            cosmic::iced::theme::Mode::Light | cosmic::iced::theme::Mode::None => Theme::Light,
+            cosmic::iced::theme::Mode::Dark => Theme::Dark,
         }
     }
 
-    fn mode(&self) -> iced::theme::Mode {
+    fn mode(&self) -> cosmic::iced::theme::Mode {
         match self {
-            Theme::Light => iced::theme::Mode::Light,
-            Theme::Dark => iced::theme::Mode::Dark,
-            Theme::Custom(_) => iced::theme::Mode::None,
+            Theme::Light => cosmic::iced::theme::Mode::Light,
+            Theme::Dark => cosmic::iced::theme::Mode::Dark,
+            Theme::Custom(_) => cosmic::iced::theme::Mode::None,
         }
     }
 
@@ -184,8 +184,8 @@ impl State {
     }
 }
 
-pub fn main() -> iced::Result {
-    iced::application(State::default, State::update, State::view)
+pub fn main() -> cosmic::iced::Result {
+    cosmic::iced::application(State::default, State::update, State::view)
         .theme(State::theme)
         .title("Custom theme")
         .run()

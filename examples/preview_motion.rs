@@ -1,4 +1,4 @@
-use iced::{
+use cosmic::iced::{
     widget::{button, column, container, pick_list, radio, row, space, stack, text, Column, Row},
     Alignment::Center,
     Border, Element, Length,
@@ -269,13 +269,13 @@ fn circle_track<'a>(offset: f32, is_horizontal: bool) -> Element<'a, Message> {
 /// A circle that animates along the track or a background circle.
 fn circle<'a>(offset: Option<f32>, is_horizontal: bool) -> Element<'a, Message> {
     container(space().width(Length::Fill).height(Length::Fill))
-        .style(move |theme: &iced::Theme| {
+        .style(move |theme: &cosmic::iced::Theme| {
             let color = if let Some(offset) = offset {
                 circle_color(offset, is_horizontal)
             } else {
                 theme.palette().text
             };
-            iced::widget::container::Style {
+            cosmic::iced::widget::container::Style {
                 border: Border {
                     color,
                     width: 4.0,
@@ -293,18 +293,18 @@ fn circle<'a>(offset: Option<f32>, is_horizontal: bool) -> Element<'a, Message> 
 }
 
 /// Gets a unique color based on the current offset.
-fn circle_color(offset: f32, is_horizontal: bool) -> iced::Color {
+fn circle_color(offset: f32, is_horizontal: bool) -> cosmic::iced::Color {
     let ratio = ((offset + MAX_OFFSET) / MAX_OFFSET / 2.0).clamp(0.0, 1.0);
 
     if is_horizontal {
-        iced::Color::from_rgb(1.0 - ratio, 0.75, ratio)
+        cosmic::iced::Color::from_rgb(1.0 - ratio, 0.75, ratio)
     } else {
-        iced::Color::from_rgb(ratio, 1.0 - ratio, 0.75)
+        cosmic::iced::Color::from_rgb(ratio, 1.0 - ratio, 0.75)
     }
 }
 
-pub fn main() -> iced::Result {
-    iced::application(State::default, State::update, State::view)
+pub fn main() -> cosmic::iced::Result {
+    cosmic::iced::application(State::default, State::update, State::view)
         .title("Preview Motion")
         .run()
 }

@@ -1,4 +1,4 @@
-use iced::{
+use cosmic::iced::{
     advanced::Widget,
     widget::{button, column, container, row, space, text, Stack},
     Border, Color, Element,
@@ -53,8 +53,8 @@ impl State {
     }
 
     fn subscription(&self) -> Subscription<Message> {
-        iced::event::listen_with(|event, _, _| match event {
-            iced::Event::Window(iced::window::Event::Resized(size)) => {
+        cosmic::iced::event::listen_with(|event, _, _| match event {
+            cosmic::iced::Event::Window(cosmic::iced::window::Event::Resized(size)) => {
                 Some(Message::WindowResized(size))
             }
             _ => None,
@@ -125,19 +125,21 @@ fn drawer<'a>(
                 Offset::new(
                     container(
                         container(drawer_content(count))
-                            .style(move |theme: &Theme| iced::widget::container::Style {
-                                background: Some(
-                                    theme.extended_palette().background.base.color.into(),
-                                ),
-                                border: Border::default().rounded(8),
-                                ..Default::default()
-                            })
+                            .style(
+                                move |theme: &Theme| cosmic::iced::widget::container::Style {
+                                    background: Some(
+                                        theme.extended_palette().background.base.color.into(),
+                                    ),
+                                    border: Border::default().rounded(8),
+                                    ..Default::default()
+                                },
+                            )
                             .padding(8)
                             .height(Fill)
                             .center_x(Length::Fixed(MAX_WIDTH)),
                     )
                     .padding(Padding::new(PADDING).left(0))
-                    .style(move |_| iced::widget::container::Style {
+                    .style(move |_| cosmic::iced::widget::container::Style {
                         background: Some(background.into()),
                         ..Default::default()
                     }),
@@ -164,14 +166,14 @@ fn drawer_content(count: usize) -> Element<'static, Message> {
             button(text("Close ›").shaping(text::Shaping::Advanced))
                 .on_press(Message::ToggleDrawer)
                 .style(|theme: &Theme, _status| {
-                    iced::widget::button::Style {
+                    cosmic::iced::widget::button::Style {
                         text_color: theme.extended_palette().primary.base.color,
                         background: Some(Color::TRANSPARENT.into()),
                         ..Default::default()
                     }
                 }),
         ]
-        .align_y(iced::Alignment::Center)
+        .align_y(cosmic::iced::Alignment::Center)
         .spacing(8),
         column![
             button(text(format!("Increment count: {count}"))).on_press(Message::Increment),
@@ -183,8 +185,8 @@ fn drawer_content(count: usize) -> Element<'static, Message> {
     .into()
 }
 
-pub fn main() -> iced::Result {
-    iced::application(State::default, State::update, State::view)
+pub fn main() -> cosmic::iced::Result {
+    cosmic::iced::application(State::default, State::update, State::view)
         .subscription(State::subscription)
         .title("Animated Drawer")
         .run()
@@ -195,7 +197,7 @@ struct Offset<'a, Message, Theme, Renderer>
 where
     Message: 'a + Clone,
     Theme: 'a,
-    Renderer: iced::advanced::Renderer,
+    Renderer: cosmic::iced::advanced::Renderer,
 {
     offset: Point,
     content: Element<'a, Message, Theme, Renderer>,
@@ -205,7 +207,7 @@ impl<'a, Message, Theme, Renderer> Offset<'a, Message, Theme, Renderer>
 where
     Message: 'a + Clone,
     Theme: 'a,
-    Renderer: iced::advanced::Renderer,
+    Renderer: cosmic::iced::advanced::Renderer,
 {
     pub fn new(content: impl Into<Element<'a, Message, Theme, Renderer>>) -> Self {
         Self {
@@ -225,28 +227,28 @@ impl<'a, Message, Theme, Renderer> Widget<Message, Theme, Renderer>
 where
     Message: 'a + Clone,
     Theme: 'a,
-    Renderer: iced::advanced::Renderer,
+    Renderer: cosmic::iced::advanced::Renderer,
 {
-    fn size(&self) -> iced::Size<Length> {
+    fn size(&self) -> cosmic::iced::Size<Length> {
         self.content.as_widget().size()
     }
 
-    fn children(&self) -> Vec<iced::advanced::widget::Tree> {
+    fn children(&self) -> Vec<cosmic::iced::advanced::widget::Tree> {
         self.content.as_widget().children()
     }
 
-    fn diff(&self, tree: &mut iced::advanced::widget::Tree) {
+    fn diff(&self, tree: &mut cosmic::iced::advanced::widget::Tree) {
         self.content.as_widget().diff(tree);
     }
 
     fn mouse_interaction(
         &self,
-        state: &iced::advanced::widget::Tree,
-        layout: iced::advanced::Layout<'_>,
-        cursor: iced::advanced::mouse::Cursor,
+        state: &cosmic::iced::advanced::widget::Tree,
+        layout: cosmic::iced::advanced::Layout<'_>,
+        cursor: cosmic::iced::advanced::mouse::Cursor,
         viewport: &Rectangle,
         renderer: &Renderer,
-    ) -> iced::advanced::mouse::Interaction {
+    ) -> cosmic::iced::advanced::mouse::Interaction {
         self.content
             .as_widget()
             .mouse_interaction(state, layout, cursor, viewport, renderer)
@@ -254,10 +256,10 @@ where
 
     fn layout(
         &mut self,
-        tree: &mut iced::advanced::widget::Tree,
+        tree: &mut cosmic::iced::advanced::widget::Tree,
         renderer: &Renderer,
-        limits: &iced::advanced::layout::Limits,
-    ) -> iced::advanced::layout::Node {
+        limits: &cosmic::iced::advanced::layout::Limits,
+    ) -> cosmic::iced::advanced::layout::Node {
         self.content
             .as_widget_mut()
             .layout(tree, renderer, limits)
@@ -266,14 +268,14 @@ where
 
     fn update(
         &mut self,
-        state: &mut iced::advanced::widget::Tree,
-        event: &iced::Event,
-        layout: iced::advanced::Layout<'_>,
-        cursor: iced::advanced::mouse::Cursor,
+        state: &mut cosmic::iced::advanced::widget::Tree,
+        event: &cosmic::iced::Event,
+        layout: cosmic::iced::advanced::Layout<'_>,
+        cursor: cosmic::iced::advanced::mouse::Cursor,
         renderer: &Renderer,
-        clipboard: &mut dyn iced::advanced::Clipboard,
-        shell: &mut iced::advanced::Shell<'_, Message>,
-        viewport: &iced::Rectangle,
+        clipboard: &mut dyn cosmic::iced::advanced::Clipboard,
+        shell: &mut cosmic::iced::advanced::Shell<'_, Message>,
+        viewport: &cosmic::iced::Rectangle,
     ) {
         self.content.as_widget_mut().update(
             state, event, layout, cursor, renderer, clipboard, shell, viewport,
@@ -282,10 +284,10 @@ where
 
     fn operate(
         &mut self,
-        state: &mut iced::advanced::widget::Tree,
-        layout: iced::advanced::Layout<'_>,
+        state: &mut cosmic::iced::advanced::widget::Tree,
+        layout: cosmic::iced::advanced::Layout<'_>,
         renderer: &Renderer,
-        operation: &mut dyn iced::advanced::widget::Operation<()>,
+        operation: &mut dyn cosmic::iced::advanced::widget::Operation<()>,
     ) {
         self.content
             .as_widget_mut()
@@ -294,12 +296,12 @@ where
 
     fn overlay<'b>(
         &'b mut self,
-        state: &'b mut iced::advanced::widget::Tree,
-        layout: iced::advanced::Layout<'b>,
+        state: &'b mut cosmic::iced::advanced::widget::Tree,
+        layout: cosmic::iced::advanced::Layout<'b>,
         renderer: &Renderer,
         viewport: &Rectangle,
-        translation: iced::Vector,
-    ) -> Option<iced::advanced::overlay::Element<'b, Message, Theme, Renderer>> {
+        translation: cosmic::iced::Vector,
+    ) -> Option<cosmic::iced::advanced::overlay::Element<'b, Message, Theme, Renderer>> {
         self.content
             .as_widget_mut()
             .overlay(state, layout, renderer, viewport, translation)
@@ -309,23 +311,23 @@ where
         self.content.as_widget().size_hint()
     }
 
-    fn state(&self) -> iced::advanced::widget::tree::State {
+    fn state(&self) -> cosmic::iced::advanced::widget::tree::State {
         self.content.as_widget().state()
     }
 
-    fn tag(&self) -> iced::advanced::widget::tree::Tag {
+    fn tag(&self) -> cosmic::iced::advanced::widget::tree::Tag {
         self.content.as_widget().tag()
     }
 
     fn draw(
         &self,
-        tree: &iced::advanced::widget::Tree,
+        tree: &cosmic::iced::advanced::widget::Tree,
         renderer: &mut Renderer,
         theme: &Theme,
-        style: &iced::advanced::renderer::Style,
-        layout: iced::advanced::Layout<'_>,
-        cursor: iced::advanced::mouse::Cursor,
-        viewport: &iced::Rectangle,
+        style: &cosmic::iced::advanced::renderer::Style,
+        layout: cosmic::iced::advanced::Layout<'_>,
+        cursor: cosmic::iced::advanced::mouse::Cursor,
+        viewport: &cosmic::iced::Rectangle,
     ) {
         self.content
             .as_widget()
@@ -338,7 +340,7 @@ impl<'a, Message, Theme, Renderer> From<Offset<'a, Message, Theme, Renderer>>
 where
     Message: 'a + Clone,
     Theme: 'a,
-    Renderer: 'a + iced::advanced::Renderer,
+    Renderer: 'a + cosmic::iced::advanced::Renderer,
 {
     fn from(offset: Offset<'a, Message, Theme, Renderer>) -> Self {
         Self::new(offset)

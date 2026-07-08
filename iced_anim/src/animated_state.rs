@@ -52,17 +52,17 @@
 //!    a button state might look like this:
 //!    ```no_run
 //!    # use iced_anim::AnimatedState;
-//!    # type Status = iced_widget::button::Status;
-//!    # type Style = iced_widget::button::Style;
+//!    # type Status = cosmic::iced::widget::button::Status;
+//!    # type Style = cosmic::iced::widget::button::Style;
 //!    #[derive(Debug)]
 //!    struct State {
 //!        is_pressed: bool,
 //!        animated_state: AnimatedState<Status, Style>,
 //!    }
 //!    ```
-//! 4. Update [`iced::advanced::Widget::state`] to get the initial status, then pass that status
+//! 4. Update [`iced_anim::iced_core::Widget::state`] to get the initial status, then pass that status
 //!    and animation mode into [`AnimatedState::new`] to create the animated state.
-//! 5. Update [`iced::advanced::Widget::diff`] to call call [`AnimatedState::diff`] if the mode
+//! 5. Update [`iced_anim::iced_core::Widget::diff`] to call call [`AnimatedState::diff`] if the mode
 //!    has changed externally.
 //!    ```ignore
 //!    fn diff(&self, tree: &mut Tree) {
@@ -73,17 +73,17 @@
 //!        tree.diff_children(std::slice::from_ref(&self.content));
 //!    }
 //!    ```
-//! 6. Update [`iced::advanced::Widget::draw`] to get the current style from the animated state
+//! 6. Update [`iced_anim::iced_core::Widget::draw`] to get the current style from the animated state
 //!    instead of manually calculating the style on each draw. Use [`AnimatedState::current_style`]
 //!    and pass in a callback to generate the style based on the theme and status, and it'll return
 //!    a reference to the latest animated style. The inner animated style will be updated if the
 //!    closure produces a style different from the current target.
-//! 7. Update [`iced::advanced::Widget::on_event`] to call [`AnimatedState::needs_redraw`] to
+//! 7. Update [`iced_anim::iced_core::Widget::on_event`] to call [`AnimatedState::needs_redraw`] to
 //!    determine if the widget needs to redraw. If a redraw is needed, then use the shell to
 //!    request a redraw on the next frame. This may vary based on how your widget, but it will
 //!    generally look like this:
 //!    ```ignore
-//!    # use iced::window;
+//!    # use cosmic::iced::window;
 //!    // Redraw anytime the status changes and would trigger a style change.
 //!    let state = tree.state.downcast_mut::<State>();
 //!    let status = self.get_status(&state, cursor, layout);
@@ -93,7 +93,7 @@
 //!        shell.request_redraw(window::RedrawRequest::NextFrame);
 //!    }
 //!    ```
-//! 8. Finally, ensure your widget handles [`iced::window::Event::RedrawRequested`] events by
+//! 8. Finally, ensure your widget handles [`cosmic::iced::window::Event::RedrawRequested`] events by
 //!    calling [`AnimatedState::tick`] to update the animated value with the current time. This
 //!    is how the animated state can update the value over time.
 use std::{

@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use iced::{
+use cosmic::iced::{
     widget::{container, space, MouseArea},
     Border, Color, Element, Length, Padding, Point, Size, Subscription, Theme,
 };
@@ -50,8 +50,10 @@ impl State {
 
     /// Listens for window resize events to ensure the bubble color is accurate.
     fn subscription(&self) -> Subscription<Message> {
-        iced::event::listen_with(|event, _, _| match event {
-            iced::Event::Window(iced::window::Event::Resized(size)) => Some(Message::Resized(size)),
+        cosmic::iced::event::listen_with(|event, _, _| match event {
+            cosmic::iced::Event::Window(cosmic::iced::window::Event::Resized(size)) => {
+                Some(Message::Resized(size))
+            }
             _ => None,
         })
     }
@@ -65,7 +67,7 @@ impl State {
                         container(space().width(Length::Fill).height(Length::Fill))
                             .width(Length::Fixed(BUBBLE_SIZE))
                             .height(Length::Fixed(BUBBLE_SIZE))
-                            .style(move |_: &Theme| iced::widget::container::Style {
+                            .style(move |_: &Theme| cosmic::iced::widget::container::Style {
                                 border: Border::default().rounded(BUBBLE_SIZE / 2.0),
                                 background: Some(get_bubble_color(position, size).into()),
                                 ..Default::default()
@@ -94,8 +96,8 @@ impl State {
     }
 }
 
-pub fn main() -> iced::Result {
-    iced::application(State::default, State::update, State::view)
+pub fn main() -> cosmic::iced::Result {
+    cosmic::iced::application(State::default, State::update, State::view)
         .subscription(State::subscription)
         .title("Animated Bubble")
         .run()

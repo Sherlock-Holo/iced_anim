@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use iced::{
+use cosmic::iced::{
     theme::palette::{self, Extended, Pair},
     widget::{column, container, pick_list, row, space, text, tooltip, Row},
     Border, Element, Length, Theme,
@@ -125,7 +125,7 @@ fn palette_grid<'a>(palette: &Extended) -> Element<'a, Message> {
         },
     )))
     .padding(1.0)
-    .style(|theme: &iced::Theme| container::Style {
+    .style(|theme: &cosmic::iced::Theme| container::Style {
         border: Border {
             color: theme.palette().text,
             width: 1.0,
@@ -152,7 +152,7 @@ fn background_palette_grid(background: &palette::Background) -> Element<'_, Mess
         ],
     ])
     .padding(1.0)
-    .style(|theme: &iced::Theme| container::Style {
+    .style(|theme: &cosmic::iced::Theme| container::Style {
         border: Border {
             color: theme.palette().text,
             width: 1.0,
@@ -172,10 +172,10 @@ fn pair_square<'a>(name: String, pair: Pair) -> Element<'a, Message> {
                 background: Some(pair.color.into()),
                 ..Default::default()
             }),
-        container(text(name).style(|theme: &iced::Theme| text::Style {
+        container(text(name).style(|theme: &cosmic::iced::Theme| text::Style {
             color: Some(theme.palette().text),
         }))
-        .style(|theme: &iced::Theme| container::Style {
+        .style(|theme: &cosmic::iced::Theme| container::Style {
             background: Some(theme.extended_palette().background.weak.color.into()),
             border: Border {
                 color: theme.extended_palette().background.base.color,
@@ -190,8 +190,8 @@ fn pair_square<'a>(name: String, pair: Pair) -> Element<'a, Message> {
     .into()
 }
 
-pub fn main() -> iced::Result {
-    iced::application(State::default, State::update, State::view)
+pub fn main() -> cosmic::iced::Result {
+    cosmic::iced::application(State::default, State::update, State::view)
         .theme(State::theme)
         .title("Animated Theme")
         .run()

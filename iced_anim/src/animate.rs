@@ -4,7 +4,7 @@
 //! Spring/velocity-based animations to make animations interruptible without any jarring effects.
 //!
 //! You can implement this trait for custom types using the "derive" feature.
-use iced_core::{theme::palette, Theme};
+use crate::iced_core::{self, theme::palette, Theme};
 use std::sync::Arc;
 
 /// A trait for types that can be animated on a per-property basis.
@@ -839,7 +839,7 @@ impl Animate for iced_core::Background {
 }
 
 #[cfg(feature = "widgets")]
-impl Animate for iced_widget::button::Style {
+impl Animate for cosmic::iced::widget::button::Style {
     fn components() -> usize {
         Option::<iced_core::Background>::components()
             + iced_core::Color::components()
@@ -875,7 +875,7 @@ impl Animate for iced_widget::button::Style {
 }
 
 #[cfg(feature = "widgets")]
-impl Animate for iced_widget::svg::Style {
+impl Animate for cosmic::iced::widget::svg::Style {
     fn components() -> usize {
         Option::<iced_core::Color>::components()
     }
@@ -1115,14 +1115,14 @@ mod tests {
 
     #[test]
     fn update_button_style() {
-        let style = iced_widget::button::Style {
+        let style = cosmic::iced::widget::button::Style {
             background: Some(iced_core::Background::Color(iced_core::Color::BLACK)),
             text_color: iced_core::Color::BLACK,
             border: iced_core::Border::default(),
             shadow: iced_core::Shadow::default(),
             snap: true,
         };
-        let target = iced_widget::button::Style {
+        let target = cosmic::iced::widget::button::Style {
             background: Some(iced_core::Background::Color(iced_core::Color::WHITE)),
             text_color: iced_core::Color::WHITE,
             border: iced_core::Border::default().width(1.0),

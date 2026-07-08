@@ -1,4 +1,4 @@
-use iced::{
+use cosmic::iced::{
     gradient::{ColorStop, Linear},
     widget::{checkbox, column, container, row, text},
     Alignment::Center,
@@ -79,9 +79,9 @@ impl State {
     }
 }
 
-pub fn main() -> iced::Result {
-    iced::application(State::default, State::update, State::view)
-        .theme(|_: &State| iced::Theme::CatppuccinFrappe)
+pub fn main() -> cosmic::iced::Result {
+    cosmic::iced::application(State::default, State::update, State::view)
+        .theme(|_: &State| cosmic::iced::Theme::CatppuccinFrappe)
         .title("Animated Widgets")
         .run()
 }
@@ -104,7 +104,7 @@ static DISABLED_GRADIENT: LazyLock<Gradient> = LazyLock::new(|| {
     ]))
 });
 
-fn danger_gradient(theme: &Theme, status: Status) -> iced::widget::button::Style {
+fn danger_gradient(theme: &Theme, status: Status) -> cosmic::iced::widget::button::Style {
     let danger = theme.extended_palette().danger;
     let gradient = match status {
         Status::Disabled => *DISABLED_GRADIENT,
@@ -137,7 +137,7 @@ fn danger_gradient(theme: &Theme, status: Status) -> iced::widget::button::Style
             },
         ])),
     };
-    iced::widget::button::Style {
+    cosmic::iced::widget::button::Style {
         background: Some(Background::Gradient(gradient)),
         text_color: danger.base.text,
         border: Border::default().rounded(24.0),
@@ -145,7 +145,7 @@ fn danger_gradient(theme: &Theme, status: Status) -> iced::widget::button::Style
     }
 }
 
-fn success_gradient(theme: &Theme, status: Status) -> iced::widget::button::Style {
+fn success_gradient(theme: &Theme, status: Status) -> cosmic::iced::widget::button::Style {
     let success = theme.extended_palette().success;
     let gradient = match status {
         Status::Disabled => *DISABLED_GRADIENT,
@@ -178,7 +178,7 @@ fn success_gradient(theme: &Theme, status: Status) -> iced::widget::button::Styl
             },
         ])),
     };
-    iced::widget::button::Style {
+    cosmic::iced::widget::button::Style {
         background: Some(Background::Gradient(gradient)),
         text_color: success.base.text,
         border: Border::default().rounded(24.0),
@@ -186,7 +186,7 @@ fn success_gradient(theme: &Theme, status: Status) -> iced::widget::button::Styl
     }
 }
 
-fn rainbow_style(_theme: &Theme, status: Status) -> iced::widget::button::Style {
+fn rainbow_style(_theme: &Theme, status: Status) -> cosmic::iced::widget::button::Style {
     const RED: Color = Color::from_rgb(1.0, 0.0, 0.0);
     const ORANGE: Color = Color::from_rgb(1.0, 0.5, 0.0);
     const YELLOW: Color = Color::from_rgb(1.0, 1.0, 0.0);
@@ -225,7 +225,7 @@ fn rainbow_style(_theme: &Theme, status: Status) -> iced::widget::button::Style 
             },
         ])),
     };
-    iced::widget::button::Style {
+    cosmic::iced::widget::button::Style {
         text_color: match status {
             Status::Active => Color::BLACK,
             _ => Color::WHITE,

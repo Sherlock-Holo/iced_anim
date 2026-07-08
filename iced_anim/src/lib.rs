@@ -16,7 +16,7 @@
 //!
 //! ```rust
 //! # #[derive(Clone)] enum Message { DoSomething }
-//! # type Element<'a, Message> = iced_core::Element<'a, Message, iced_core::Theme, iced_widget::Renderer>;
+//! # type Element<'a, Message> = iced_anim::iced_core::Element<'a, Message, iced_anim::iced_core::Theme, cosmic::Renderer>;
 //! use iced_anim::widget::button;
 //!
 //! fn fancy_button<'a>() -> Element<'a, Message> {
@@ -34,7 +34,7 @@
 //! by enabling the `derive` feature flag and adding `#[derive(Animate)]` to your type:
 //!
 //! ```rust
-//! # use iced_core::Color;
+//! # use iced_anim::iced_core::Color;
 //! use iced_anim::Animate;
 //!
 //! // Note that animate also requires `Clone` and `PartialEq` impls.
@@ -75,3 +75,9 @@ pub use transition::{Easing, Transition};
 
 #[cfg(feature = "derive")]
 pub use iced_anim_derive::Animate;
+
+// Re-export iced types from cosmic so downstream users can access them through iced_anim.
+// cosmic re-exports `iced` as a module, and iced re-exports `core` (= iced_core).
+pub use cosmic::iced::core as iced_core;
+// iced_widget items are accessed via cosmic::iced::widget::*, but we don't re-export
+// the whole widget module to avoid confusion with iced_anim's own widget module.

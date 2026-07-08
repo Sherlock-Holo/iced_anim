@@ -1,21 +1,21 @@
 //! An animated button that will automatically transition between different styles.
-use crate::{animated::Mode, AnimatedState};
-use iced_core::{
-    layout,
+use crate::iced_core::{
+    self, layout,
     mouse::{self, Cursor},
     overlay, renderer, touch,
     widget::{tree, Operation, Tree},
     window, Background, Clipboard, Color, Element, Event, Layout, Length, Padding, Rectangle,
     Shell, Size, Vector, Widget,
 };
+use crate::{animated::Mode, AnimatedState};
 
 // Re-export the widget types for convenience
-pub use iced_widget::button::{
+pub use cosmic::iced::widget::button::{
     danger, primary, secondary, success, text, Catalog, Status, Style, StyleFn,
 };
 
 /// An animated button that will automatically transition between different styles.
-pub struct Button<'a, Message, Theme = iced_core::Theme, Renderer = iced_widget::Renderer>
+pub struct Button<'a, Message, Theme = crate::iced_core::Theme, Renderer = cosmic::Renderer>
 where
     Renderer: iced_core::Renderer,
     Theme: Catalog,
@@ -203,11 +203,11 @@ where
         vec![Tree::new(&self.content)]
     }
 
-    fn diff(&self, tree: &mut Tree) {
+    fn diff(&mut self, tree: &mut Tree) {
         // If the style changes from outside, then immediately update the style.
         let state = tree.state.downcast_mut::<State>();
         state.animated_state.diff(self.mode);
-        tree.diff_children(std::slice::from_ref(&self.content));
+        tree.diff_children(std::slice::from_mut(&mut self.content));
     }
 
     fn size(&self) -> Size<Length> {
@@ -374,7 +374,9 @@ where
             renderer,
             theme,
             &renderer::Style {
+                icon_color: iced_core::Color::BLACK,
                 text_color: style.text_color,
+                scale_factor: 1.0,
             },
             content_layout,
             cursor,

@@ -1,4 +1,4 @@
-use iced::{
+use cosmic::iced::{
     color,
     widget::{button, column, container, text, Row},
     Border, Color, Element, Font, Length,
@@ -57,7 +57,7 @@ impl State {
     fn view(&self) -> Element<'_, Message> {
         let buttons = Row::with_children(Self::COLORS.iter().cloned().map(|color| {
             button(text(""))
-                .style(move |_, _| iced::widget::button::Style {
+                .style(move |_, _| cosmic::iced::widget::button::Style {
                     background: Some(color.into()),
                     border: Border::default().rounded(6),
                     ..Default::default()
@@ -82,7 +82,7 @@ impl State {
                     .font(Font::MONOSPACE)
                     .color(text_color),
                 )
-                .style(move |_| iced::widget::container::Style {
+                .style(move |_| cosmic::iced::widget::container::Style {
                     background: Some(color.into()),
                     border: Border::default().rounded(6),
                     ..Default::default()
@@ -101,8 +101,8 @@ impl State {
     }
 }
 
-pub fn main() -> iced::Result {
-    iced::application(State::default, State::update, State::view)
+pub fn main() -> cosmic::iced::Result {
+    cosmic::iced::application(State::default, State::update, State::view)
         .title("Animated Color")
         .run()
 }

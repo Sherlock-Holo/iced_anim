@@ -1,17 +1,17 @@
 //! Svg widgets display vector graphics in your application.
-use crate::{animated::Mode, AnimatedState};
-use iced_core::{
-    layout,
+use crate::iced_core::{
+    self, layout,
     mouse::{self, Cursor},
     renderer, svg,
     widget::{tree, Tree},
     window, ContentFit, Element, Event, Layout, Length, Point, Rectangle, Rotation, Size, Vector,
     Widget,
 };
+use crate::{animated::Mode, AnimatedState};
 use std::path::PathBuf;
 
 // Re-export the widget types for convenience
-pub use iced_widget::svg::{Catalog, Handle, Status, Style, StyleFn};
+pub use cosmic::iced::widget::svg::{Catalog, Handle, Status, Style, StyleFn};
 
 /// A vector graphics image.
 ///
@@ -163,7 +163,7 @@ where
         tree::State::new(state)
     }
 
-    fn diff(&self, tree: &mut Tree) {
+    fn diff(&mut self, tree: &mut Tree) {
         // If the style changes from outside, then immediately update the style.
         let state = tree.state.downcast_mut::<State>();
         state.animated_state.diff(self.mode);
@@ -257,6 +257,7 @@ where
                     color: style.color,
                     rotation: self.rotation.radians(),
                     opacity: self.opacity,
+                    border_radius: [0.0; 4],
                 },
                 drawing_bounds,
                 bounds,

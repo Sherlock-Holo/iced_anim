@@ -10,10 +10,10 @@
 //! # Example
 //! ```rust
 //! use std::time::Duration;
-//! use iced_widget::{button, text, Row};
+//! use cosmic::iced::widget::{button, text, Row};
 //! use iced_anim::{Animation, Animated, Event, transition::Easing};
 //!
-//! # type Element<'a, Message> = iced_core::Element<'a, Message, iced_core::Theme, iced_widget::Renderer>;
+//! # type Element<'a, Message> = iced_anim::iced_core::Element<'a, Message, iced_anim::iced_core::Theme, cosmic::Renderer>;
 //!
 //! struct State {
 //!     size: Animated<f32>,
@@ -55,7 +55,7 @@
 //! ```
 use std::time::Instant;
 
-use iced_core::{widget::Tree, Element, Rectangle, Widget};
+use crate::iced_core::{self, widget::Tree, Element, Rectangle, Widget};
 
 use crate::{Animate, Animated, Event};
 
@@ -129,8 +129,8 @@ where
         vec![Tree::new(&self.content)]
     }
 
-    fn diff(&self, tree: &mut iced_core::widget::Tree) {
-        tree.diff_children(std::slice::from_ref(&self.content));
+    fn diff(&mut self, tree: &mut iced_core::widget::Tree) {
+        tree.diff_children(std::slice::from_mut(&mut self.content));
     }
 
     fn mouse_interaction(
