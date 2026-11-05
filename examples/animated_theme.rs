@@ -174,6 +174,7 @@ fn pair_square<'a>(name: String, pair: Pair) -> Element<'a, Message> {
             }),
         container(text(name).style(|theme: &cosmic::iced::Theme| text::Style {
             color: Some(theme.palette().text),
+            ..Default::default()
         }))
         .style(|theme: &cosmic::iced::Theme| container::Style {
             background: Some(theme.extended_palette().background.weak.color.into()),

@@ -237,8 +237,8 @@ where
         self.content.as_widget().children()
     }
 
-    fn diff(&self, tree: &mut cosmic::iced::advanced::widget::Tree) {
-        self.content.as_widget().diff(tree);
+    fn diff(&mut self, tree: &mut cosmic::iced::advanced::widget::Tree) {
+        self.content.as_widget_mut().diff(tree);
     }
 
     fn mouse_interaction(

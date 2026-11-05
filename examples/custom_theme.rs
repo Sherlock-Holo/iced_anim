@@ -60,6 +60,7 @@ impl Base for Theme {
         cosmic::iced::theme::Style {
             text_color: palette.text,
             background_color: palette.background,
+            icon_color: palette.text,
         }
     }
 
@@ -114,6 +115,7 @@ impl text::Catalog for Theme {
     fn style(&self, _class: &Self::Class<'_>) -> text::Style {
         text::Style {
             color: Some(self.palette().text),
+            ..Default::default()
         }
     }
 }

@@ -842,6 +842,10 @@ impl Animate for iced_core::Background {
 impl Animate for cosmic::iced::widget::button::Style {
     fn components() -> usize {
         Option::<iced_core::Background>::components()
+            + iced_core::border::Radius::components()
+            + f32::components()
+            + iced_core::Color::components()
+            + Option::<iced_core::Color>::components()
             + iced_core::Color::components()
             + iced_core::Border::components()
             + iced_core::Shadow::components()
@@ -850,6 +854,10 @@ impl Animate for cosmic::iced::widget::button::Style {
     fn distance_to(&self, end: &Self) -> Vec<f32> {
         [
             self.background.distance_to(&end.background),
+            self.border_radius.distance_to(&end.border_radius),
+            self.border_width.distance_to(&end.border_width),
+            self.border_color.distance_to(&end.border_color),
+            self.icon_color.distance_to(&end.icon_color),
             self.text_color.distance_to(&end.text_color),
             self.border.distance_to(&end.border),
             self.shadow.distance_to(&end.shadow),
@@ -859,6 +867,10 @@ impl Animate for cosmic::iced::widget::button::Style {
 
     fn update(&mut self, components: &mut impl Iterator<Item = f32>) {
         self.background.update(components);
+        self.border_radius.update(components);
+        self.border_width.update(components);
+        self.border_color.update(components);
+        self.icon_color.update(components);
         self.text_color.update(components);
         self.border.update(components);
         self.shadow.update(components);
@@ -867,6 +879,14 @@ impl Animate for cosmic::iced::widget::button::Style {
     fn lerp(&mut self, start: &Self, end: &Self, progress: f32) {
         self.background
             .lerp(&start.background, &end.background, progress);
+        self.border_radius
+            .lerp(&start.border_radius, &end.border_radius, progress);
+        self.border_width
+            .lerp(&start.border_width, &end.border_width, progress);
+        self.border_color
+            .lerp(&start.border_color, &end.border_color, progress);
+        self.icon_color
+            .lerp(&start.icon_color, &end.icon_color, progress);
         self.text_color
             .lerp(&start.text_color, &end.text_color, progress);
         self.border.lerp(&start.border, &end.border, progress);
@@ -1118,16 +1138,15 @@ mod tests {
         let style = cosmic::iced::widget::button::Style {
             background: Some(iced_core::Background::Color(iced_core::Color::BLACK)),
             text_color: iced_core::Color::BLACK,
-            border: iced_core::Border::default(),
-            shadow: iced_core::Shadow::default(),
             snap: true,
+            ..Default::default()
         };
         let target = cosmic::iced::widget::button::Style {
             background: Some(iced_core::Background::Color(iced_core::Color::WHITE)),
             text_color: iced_core::Color::WHITE,
             border: iced_core::Border::default().width(1.0),
-            shadow: iced_core::Shadow::default(),
             snap: true,
+            ..Default::default()
         };
 
         let mut spring = crate::Spring::new(style);
